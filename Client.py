@@ -4,7 +4,7 @@ import os
 import art
 import argparse
 
-#Version 1.0 Beta
+#Version 1.5 Beta
 #Adaptaion YenisFish-Adaptation
 
 """ COLORS """
@@ -30,18 +30,35 @@ prPurple('Created by: YendisFish')
 parser = argparse.ArgumentParser(description="MightyTripV2")
 parser.add_argument('-i', '--ipaddress', help='Server IP Address', required=True)
 parser.add_argument('-p', '--port', help='Server Port', type=int, default=10544)
+parser.add_argument('-os', help='OS input', default='linux', required=True)
 args = parser.parse_args()
 
-MAX_LENGTH = 20000
+OS = args.os
+MAX_LENGTH = 50000
 HOST = args.ipaddress
 PORT = args.port
 s = socket.socket()
 s.connect((HOST, PORT))
 
+print('Starting Client for ' + OS)
+
+if OS == 'mac':
+    print('Welcome Mac User!')
+    prYellow('WARNING: MightyTripV2 is native to linux and may not work as well on Mac OS')
+
+if OS == 'linux':
+    prYellow('Welcome Superior Being')
+
+if OS == 'windows':
+    prYellow('WARNING: Although with more working features, the windows version of MightyTripV2 isnt the best version to use due to security issues')
+
 while 1:
     msg = input("MT-V2 : ")
     if msg == "close":
+        prRed('Attempting to close socket')
         s.close()
+        prGreen('Successfully Closed Socket')
+        prRed('Terminating Program')
         sys.exit(0)
     try:
         s.send(msg.encode("utf-8"))
@@ -66,4 +83,4 @@ while 1:
         prRed(data)
     if data == 'failed':
         line = 16
-        print('Recieved')
+        prGreen('Received')

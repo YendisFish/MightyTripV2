@@ -4,7 +4,7 @@ import os
 import art
 import argparse
 
-#Version 1.5 Beta
+#Version 1.6
 #Adaptaion YenisFish-Adaptation
 
 """ COLORS """
@@ -31,10 +31,12 @@ parser = argparse.ArgumentParser(description="MightyTripV2")
 parser.add_argument('-i', '--ipaddress', help='Server IP Address', required=True)
 parser.add_argument('-p', '--port', help='Server Port', type=int, default=10544)
 parser.add_argument('-os', help='OS input', default='linux', required=True)
+parser.add_argument('-pac-size', help='Change packet size', default=50000)
 args = parser.parse_args()
 
 OS = args.os
-MAX_LENGTH = 50000
+MAX_LENGTH = args.pac_size
+prGreen('Packet size set to ' + MAX_LENGTH)
 HOST = args.ipaddress
 PORT = args.port
 s = socket.socket()

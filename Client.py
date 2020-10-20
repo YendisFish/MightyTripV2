@@ -4,11 +4,8 @@ import os
 import art
 import argparse
 
-#Version 1.6
+#Version 1.7
 #Adaptaion YenisFish-Adaptation
-
-""" COLORS """
-
 
 def prRed(skk): print("\033[91m {}\033[00m".format(skk))
 def prGreen(skk): print("\033[92m {}\033[00m".format(skk))
@@ -36,7 +33,7 @@ args = parser.parse_args()
 
 OS = args.os
 MAX_LENGTH = args.pac_size
-prGreen('Packet size set to ' + MAX_LENGTH)
+prGreen('Packet size set to ' + str(MAX_LENGTH))
 HOST = args.ipaddress
 PORT = args.port
 s = socket.socket()
@@ -65,24 +62,9 @@ while 1:
     try:
         s.send(msg.encode("utf-8"))
         data = s.recv(MAX_LENGTH).decode("utf-8")
+        topcover = prCyan('==========Data==========')
+        dataout = prYellow(data)
+        bottomcover = prCyan('------------------------')
     except:
         print(msg)
         line = 44
-    theydata = prCyan('--------------------')
-    dodata = print(data)
-    datacolor = prCyan('--------------------')
-    if msg == "dir":
-        prCyan(data)
-    if msg == "ping":
-        prRed(data)
-    if msg == "arp -a":
-        prPurple(data)
-    if msg == "help":
-        msg = os.system('help')
-    if msg == "help":
-        prRed(data)
-    if msg == 'Help':
-        prRed(data)
-    if data == 'failed':
-        line = 16
-        prGreen('Received')

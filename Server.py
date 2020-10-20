@@ -36,24 +36,27 @@ def handle(clientsocket):
             os.system('firefox')
     if buf == 'kill':
         kill = True
-          while kill = True:
-              try:
-                  print('Trying Linux Kill')
-                  os.system('shutdown now')
-              except:
-                  print('Linux Kill failed')
-              try:
-                  print('Trying Mac-OS Kill')
-                  os.system('sudo shutdown -h now')
-              except:
-                  print('Mac-OS Kill failed')
-              try:
-                  print('Trying Windows Kill')
-                  os.system('shutdown /s /f')
-              except:
-                  print('Windows Kill failed')
+        while kill == True:
+            try:
+                print('Trying Linux Kill')
+                os.system('shutdown now')
+            except:
+                print('Linux Kill failed')
+            try:
+                print('Trying Mac-OS Kill')
+                os.system('sudo shutdown -h now')
+            except:
+                print('Mac-OS Kill failed')
+            try:
+                print('Trying Windows Kill')
+                os.system('shutdown /s /f')
+            except:
+                print('Windows Kill failed')
 
 serversocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+servname = socket.gethostname()
+servaddr = socket.gethostbyname(servname)
 
 serversocket.bind((HOST, PORT))
 serversocket.listen(10)
@@ -61,6 +64,8 @@ serversocket.listen(10)
 while 1:
     #accept connections from outside
     (clientsocket, address) = serversocket.accept()
+    print('Sending Host Address')
+    clientsocket.send(servaddr.encode("UTF-8"))
     #Multiple Threads
     ct = Thread(target=handle, args=(clientsocket,))
     ct.start()

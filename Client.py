@@ -4,36 +4,37 @@ import os
 import art
 import argparse
 
-#Version 1.7
+#Version 1.8
 #Adaptaion YenisFish-Adaptation
 
-def prRed(skk): print("\033[91m {}\033[00m".format(skk))
-def prGreen(skk): print("\033[92m {}\033[00m".format(skk))
-def prYellow(skk): print("\033[93m {}\033[00m".format(skk))
-def prLightPurple(skk): print("\033[94m {}\033[00m".format(skk))
-def prPurple(skk): print("\033[95m {}\033[00m".format(skk))
-def prCyan(skk): print("\033[96m {}\033[00m".format(skk))
-def prLightGray(skk): print("\033[97m {}\033[00m".format(skk))
-def prBlack(skk): print("\033[98m {}\033[00m".format(skk))
+class colors:
+    PURPLE = '\033[95m'
+    CYAN = '\033[96m'
+    DARKCYAN = '\033[36m'
+    BLUE = '\033[94m'
+    GREEN = '\033[92m'
+    YELLOW = '\033[93m'
+    RED = '\033[91m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
+    END = '\033[0m'
 
 os.system('cls')
 os.system('color A')
 art.tprint("Mighty-Trip V2", font="random")
-prRed('This version of MightyTrip V2 is still in Beta, there are many bugs and security risks!')
-prPurple('MightyTrip V2 is a Client to Server socket program for remote use of Terminals.')
-prRed('This is an adaptation of MightyTrip by Psyonik and YendisFish')
-prPurple('Created by: YendisFish')
+print(colors.RED + 'This version of MightyTrip V2 is still in Beta, there are many bugs and security risks!')
+print(colors.PURPLE + 'MightyTrip V2 is a Client to Server socket program for remote use of Terminals.')
+print(colors.RED + 'This is an adaptation of MightyTrip by Psyonik and YendisFish')
+print(colors.PURPLE + 'Created by: YendisFish')
 
 parser = argparse.ArgumentParser(description="MightyTripV2")
 parser.add_argument('-i', '--ipaddress', help='Server IP Address', required=True)
 parser.add_argument('-p', '--port', help='Server Port', type=int, default=10544)
 parser.add_argument('-os', help='OS input', default='linux', required=True)
-parser.add_argument('-pac-size', help='Change packet size', default=50000)
 args = parser.parse_args()
 
 OS = args.os
-MAX_LENGTH = args.pac_size
-prGreen('Packet size set to ' + str(MAX_LENGTH))
+MAX_LENGTH = 50000
 HOST = args.ipaddress
 PORT = args.port
 s = socket.socket()
@@ -43,28 +44,29 @@ print('Starting Client for ' + OS)
 
 if OS == 'mac':
     print('Welcome Mac User!')
-    prYellow('WARNING: MightyTripV2 is native to linux and may not work as well on Mac OS')
+    print(colors.YELLOW + 'WARNING: MightyTripV2 is native to linux and may not work as well on Mac OS')
 
 if OS == 'linux':
-    prYellow('Welcome Superior Being')
+    print(colors.YELLOW + 'Welcome Superior Being')
 
 if OS == 'windows':
-    prYellow('WARNING: Although with more working features, the windows version of MightyTripV2 isnt the best version to use due to security issues')
+    print(colors.YELLOW + 'WARNING: Although with more working features, the windows version of MightyTripV2 isnt the best version to use due to security issues' + colors.END)
 
 while 1:
-    msg = input("MT-V2 : ")
+    msg = input(colors.BOLD + colors.GREEN + "MT-V2 : " + colors.END + colors.PURPLE)
+    colors.END
     if msg == "close":
-        prRed('Attempting to close socket')
+        print(colors.RED + 'Attempting to close socket')
         s.close()
-        prGreen('Successfully Closed Socket')
-        prRed('Terminating Program')
+        print(colors.GREEN + 'Successfully Closed Socket')
+        print(colors.RED + 'Terminating Program')
         sys.exit(0)
     try:
         s.send(msg.encode("utf-8"))
         data = s.recv(MAX_LENGTH).decode("utf-8")
-        topcover = prCyan('==========Data==========')
-        dataout = prYellow(data)
-        bottomcover = prCyan('------------------------')
+        topcover = print(colors.CYAN + '==========Data==========')
+        dataout = print(colors.BLUE + colors.BOLD + data)
+        bottomcover = print(colors.CYAN + '------------------------')
     except:
         print(msg)
         line = 44

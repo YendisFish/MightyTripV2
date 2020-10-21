@@ -4,7 +4,7 @@ import os
 import art
 import argparse
 
-#Version 1.8
+#Version 2.0
 #Adaptaion YenisFish-Adaptation
 
 class colors:
@@ -34,7 +34,7 @@ parser.add_argument('-os', help='OS input', default='linux', required=True)
 args = parser.parse_args()
 
 OS = args.os
-MAX_LENGTH = 50000
+MAX_LENGTH = 100000
 HOST = args.ipaddress
 PORT = args.port
 s = socket.socket()
@@ -63,10 +63,10 @@ while 1:
         sys.exit(0)
     try:
         s.send(msg.encode("utf-8"))
-        data = s.recv(MAX_LENGTH).decode("utf-8")
+        data = s.recv(MAX_LENGTH).decode("UTF-8")
         topcover = print(colors.CYAN + '==========Data==========')
         dataout = print(colors.BLUE + colors.BOLD + data)
         bottomcover = print(colors.CYAN + '------------------------')
     except:
         print(msg)
-        line = 44
+        line = 54
